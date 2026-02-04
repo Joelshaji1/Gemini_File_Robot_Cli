@@ -1,0 +1,10 @@
+# Secrets
+APIKEY.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Robot Output
+Collected_Files/
+Collected_PDFs/
