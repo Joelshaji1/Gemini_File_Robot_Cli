@@ -8,3 +8,6 @@ __pycache__/
 # Robot Output
 Collected_Files/
 Collected_PDFs/
+build/
+dist/
+*.spec

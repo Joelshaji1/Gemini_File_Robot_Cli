@@ -26,6 +26,13 @@ Run the robot:
 python filebot.py
 ```
 
+### Running as EXE
+If you built the executable, simply run:
+```bash
+./dist/filebot.exe
+```
+(Ensure `APIKEY.env` is in the same folder as the exe)
+
 ### Example Commands:
 - "List all files on my Desktop"
 - "Find all jpg images in my specific_folder and move them to a new folder"
