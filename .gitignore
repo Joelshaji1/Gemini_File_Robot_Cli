@@ -9,5 +9,5 @@ __pycache__/
 Collected_Files/
 Collected_PDFs/
 build/
-dist/
+
 *.spec
