@@ -15,9 +15,9 @@ A Python CLI tool that uses Google's Gemini AI to organize and manage your files
    pip install google-generativeai python-dotenv
    ```
 3. **Get an API Key**:
-   - Visit [Google AI Studio](https://aistudio.google.com/) to get your Gemini API key.
+   - Visit [OpenRouter.ai](https://openrouter.ai/) to get your API key.
    - Create a file named `APIKEY.env` in the root directory.
-   - Add your key: `GEMINI_API_KEY=your_key_here`
+   - Add your key: `OPENROUTER_API_KEY=sk-or-your_key_here`
 
 ## Usage
 

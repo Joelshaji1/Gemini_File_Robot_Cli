@@ -5,24 +5,26 @@ A CLI tool to organize files using Google's Gemini AI.
 import os
 import shutil
 import json
-import google.generativeai as genai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 # --- SETUP ---
 load_dotenv("APIKEY.env")
-GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY") or os.getenv("GEMINI_API_KEY") # Fallback for now
 
-if not GEMINI_KEY:
+if not OPENROUTER_KEY:
     print("❌ API Key Missing! Check your APIKEY.env file.")
+    input("Press Enter to exit...")
     exit()
 
-genai.configure(api_key=GEMINI_KEY)
-# Using gemini-1.5-flash for speed
-model = genai.GenerativeModel('gemini-2.5-flash')
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key=OPENROUTER_KEY,
+)
 
 # --- THE BRAIN ---
 def ask_gemini(user_input):
-    prompt = f"""
+    system_prompt = f"""
     You are a file system robot. Convert the user's request into a JSON command.
     
     Format:
@@ -37,12 +39,18 @@ def ask_gemini(user_input):
     - If user says "Desktop", use "C:\\\\Users\\\\{os.getlogin()}\\\\Desktop"
     - If user says "C drive", use "C:\\\\"
     - If no destination specified, use "C:\\\\Users\\\\{os.getlogin()}\\\\Desktop\\\\Collected_Files"
-    
-    User Request: {user_input}
     """
-    response = model.generate_content(prompt)
+    
+    response = client.chat.completions.create(
+      model="google/gemini-2.0-flash-001", # OpenRouter model ID
+      messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_input},
+      ]
+    )
+    
     # Strip any markdown the AI might add
-    clean_text = response.text.strip().replace("```json", "").replace("```", "")
+    clean_text = response.choices[0].message.content.strip().replace("```json", "").replace("```", "")
     return json.loads(clean_text)
 
 # --- THE HANDS ---
